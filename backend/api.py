@@ -3,6 +3,8 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from gemini_chat import GeminiTutor
 from data.prompts import Marie_Belle, Van_Claude, Elise, Marie_Belle_Intro, Van_Claude_Intro
+from camera_service import CameraService
+import requests
 
 app = FastAPI()
 
@@ -20,9 +22,37 @@ tutors = {
     "bob": GeminiTutor(subject="French", name="Van Claude", introduction=Van_Claude, first_message=Van_Claude_Intro),
 }
 
+cameraService = CameraService()
+
+@app.on_event("startup")
+async def startup_event():
+    cameraService.start()
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    cameraService.stop()
+
 class ChatRequest(BaseModel):
     tutor_id: str
     message: str
+    
+@app.get("/tracking/{tutor_id}")
+async def tracking(tutor_id: str):
+    tutor = tutors.get(tutor_id)
+    if not tutor:
+        return {"error": "Tutor not found"}
+
+    try:
+        parameters = cameraService.get_current_parameters()
+        if parameters["looking_state"] == "away" and parameters["looking_duration"] > 10.0:
+            response = tutor.ask("Student is looking distracted, please motivate him kindly.")
+            print(parameters["looking_state"] + " should motivate")
+            return {"reply": response}
+        else:
+            print(parameters["looking_state"] + " everythings fine")
+            return {"reply": tutor.ask("Student is no longer distracted.")} # Return empty reply when not distracted
+    except Exception as e:
+        return {"error": f"Camera service error: {str(e)}"}
 
 @app.post("/chat")
 def chat(request: ChatRequest):

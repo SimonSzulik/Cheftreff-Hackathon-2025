@@ -102,7 +102,8 @@
 </template>
 
 <script setup>
-import { ref, nextTick, watch } from 'vue';
+import { ref, nextTick, watch, onMounted } from 'vue';
+
 const BACKEND_URL = 'http://localhost:8000';
 
 const mentors = ref([
@@ -180,6 +181,18 @@ watch(messages, () => {
         scrollToBottom();
     });
 }, { deep: true });
+onMounted(() => {
+  setInterval(async () => {
+    if (selectedMentor.value) {
+      const response = await fetch(`${BACKEND_URL}/tracking/${selectedMentor.value.id}`);
+      const data = await response.json();
+    messages.value.push({ id: nextMessageId++, sender: 'mentor', text: data.reply });
+
+    await nextTick();
+    scrollToBottom();
+    }
+  }, 5000); // every 5 seconds
+});
 </script>
 
 <style scoped>
