@@ -85,7 +85,14 @@
                   rounded="xl"
                   @keyup.enter="sendMessage"
                 ></v-text-field>
-                <v-btn color="#00a884" @click="sendMessage" rounded="circle" size="large" :disabled="!newMessage.trim()">
+                <v-btn
+                  color="#00a884"
+                  @click="sendMessage"
+                  size="large"
+                  rounded="circle"
+                  class="send-button"
+                  :disabled="!newMessage.trim()"
+                >
                   <v-icon>mdi-send</v-icon>
                 </v-btn>
               </div>
@@ -222,6 +229,16 @@ onMounted(() => {
 
 .border-right {
   border-right: 1px solid #2a3942;
+}
+
+.send-button {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mentor-list {
