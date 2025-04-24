@@ -52,6 +52,7 @@ async def motivate(tutor_id: str):
 
 @app.get("/tracking/{tutor_id}")
 async def tracking(tutor_id: str):
+    global motivate_allowed
     tutor = tutors.get(tutor_id)
     if not tutor:
         return {"error": "Tutor not found"}
@@ -70,6 +71,7 @@ async def tracking(tutor_id: str):
 
 @app.post("/chat")
 def chat(request: ChatRequest):
+    global motivate_allowed
     motivate_allowed = True
     tutor = tutors.get(request.tutor_id)
     if not tutor:
