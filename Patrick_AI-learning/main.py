@@ -3,7 +3,7 @@
 from gemini_chat import GeminiTutor
 
 def main():
-    tutor = GeminiTutor(subject="Math", name="Marie-Belle")
+    tutor = GeminiTutor(subject="Math", name="Mary-Belle")
 
     print("AI Tutor: Ready to help! Ask me anything or answer my questions.\n")
 
