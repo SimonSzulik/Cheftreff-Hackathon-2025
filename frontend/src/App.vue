@@ -186,7 +186,8 @@ onMounted(() => {
     if (selectedMentor.value) {
       const response = await fetch(`${BACKEND_URL}/tracking/${selectedMentor.value.id}`);
       const data = await response.json();
-    messages.value.push({ id: nextMessageId++, sender: 'mentor', text: data.reply });
+    
+    if (data.reply === 'motivate') alert('Are you distracted! You should try to focus more!');
 
     await nextTick();
     scrollToBottom();

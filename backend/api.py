@@ -45,12 +45,11 @@ async def tracking(tutor_id: str):
     try:
         parameters = cameraService.get_current_parameters()
         if parameters["looking_state"] == "away" and parameters["looking_duration"] > 10.0:
-            response = tutor.ask("Student is looking distracted, please motivate him kindly.")
             print(parameters["looking_state"] + " should motivate")
-            return {"reply": response}
+            return {"reply": "motivate"}
         else:
             print(parameters["looking_state"] + " everythings fine")
-            return {"reply": tutor.ask("Student is no longer distracted.")} # Return empty reply when not distracted
+            return {"reply": "fine"} # Return empty reply when not distracted
     except Exception as e:
         return {"error": f"Camera service error: {str(e)}"}
 
