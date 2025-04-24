@@ -170,7 +170,7 @@ const sendMessage = async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        tutor_id: selectedMentor.value.name.toLowerCase(),
+        tutor_id: selectedMentor.value.id,
         message: userText
       })
     });
