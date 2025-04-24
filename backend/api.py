@@ -6,6 +6,9 @@ from data.prompts import Marie_Belle, Van_Claude, Elise, Marie_Belle_Intro, Van_
 from camera_service import CameraService
 import requests
 
+motivation_prompt = "The student seems to be distracted. Send him a nice message to motivate him. Maybe adjust the difficulty of the current task."
+motivate_allowed = True
+
 app = FastAPI()
 
 # CORS for local frontend access
@@ -36,6 +39,17 @@ class ChatRequest(BaseModel):
     tutor_id: str
     message: str
     
+
+@app.get("/motivate/{tutor_id}")
+async def motivate(tutor_id: str):
+    tutor = tutors.get(tutor_id)
+    if not tutor:
+        return {"error": "Tutor not found"}
+
+    response = tutor.ask(motivation_prompt)
+    return {"reply": response}
+
+
 @app.get("/tracking/{tutor_id}")
 async def tracking(tutor_id: str):
     tutor = tutors.get(tutor_id)
@@ -44,8 +58,9 @@ async def tracking(tutor_id: str):
 
     try:
         parameters = cameraService.get_current_parameters()
-        if parameters["looking_state"] == "away" and parameters["looking_duration"] > 10.0:
+        if parameters["looking_state"] == "away" and parameters["looking_duration"] > 10.0 and motivate_allowed:
             print(parameters["looking_state"] + " should motivate")
+            motivate_allowed = False
             return {"reply": "motivate"}
         else:
             print(parameters["looking_state"] + " everythings fine")
@@ -55,6 +70,7 @@ async def tracking(tutor_id: str):
 
 @app.post("/chat")
 def chat(request: ChatRequest):
+    motivate_allowed = True
     tutor = tutors.get(request.tutor_id)
     if not tutor:
         return {"error": "Tutor not found"}
@@ -76,7 +92,8 @@ def get_history(tutor_id: str):
             history.append({"sender": role, "text": text})
         text = getattr(msg.parts[0], 'text', '') if msg.parts else ''
         role = "mentor" if msg.role == "model" else "me"
-        history.append({"sender": role, "text": text})
+        if not text == motivation_prompt:
+            history.append({"sender": role, "text": text})
 
     if len(history) == 2:
         text = tutor.first_message
