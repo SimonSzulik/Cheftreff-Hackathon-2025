@@ -45,4 +45,4 @@ def get_history(tutor_id: str):
         role = "mentor" if msg.role == "model" else "me"
         history.append({"sender": role, "text": text})
 
-    return {"messages": history}
+    return {"messages": history[2:]}
