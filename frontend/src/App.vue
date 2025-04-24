@@ -107,21 +107,21 @@ import { ref, nextTick, watch, onMounted } from 'vue';
 const BACKEND_URL = 'http://localhost:8000';
 
 const mentors = ref([
-  { id: 'marieBelle', name: 'Marie-Belle', avatar: 'https://randomuser.me/api/portraits/thumb/women/75.jpg', lastMessage: 'Math' },
-  { id: 'vanClaude', name: 'Van Claude', avatar: 'https://randomuser.me/api/portraits/thumb/men/75.jpg', lastMessage: 'French' },
-  { id: 'sophiaLane', name: 'Sophia Lane', avatar: 'https://randomuser.me/api/portraits/thumb/women/63.jpg', lastMessage: 'English' },
-  { id: 'maximilianKoehler', name: 'Maximilian Koehler', avatar: 'https://randomuser.me/api/portraits/thumb/men/31.jpg', lastMessage: 'German' },
-  { id: 'eliseSchmitz', name: 'Elise Schmitz', avatar: 'https://randomuser.me/api/portraits/thumb/women/10.jpg', lastMessage: 'Biology' },
-  { id: 'isabellaReyes', name: 'Isabella Reyes', avatar: 'https://randomuser.me/api/portraits/thumb/women/11.jpg', lastMessage: 'Music' },
-  { id: 'danielHartmann', name: 'Daniel Hartmann', avatar: 'https://randomuser.me/api/portraits/thumb/men/58.jpg', lastMessage: 'Geography' },
-  { id: 'lenaFischer', name: 'Lena Fischer', avatar: 'https://randomuser.me/api/portraits/thumb/women/39.jpg', lastMessage: 'Physics' },
-  { id: 'amiraSolis', name: 'Amira Solis', avatar: 'https://randomuser.me/api/portraits/thumb/women/72.jpg', lastMessage: 'Chemistry' },
-  { id: 'liamReyes', name: 'Liam Reyes', avatar: 'https://randomuser.me/api/portraits/thumb/men/79.jpg', lastMessage: 'Computer Science' },
-  { id: 'annaLuciaBaumann', name: 'Anna Lucia Baumann', avatar: 'https://randomuser.me/api/portraits/thumb/women/24.jpg', lastMessage: 'Religion' },
-  { id: 'jordanKeller', name: 'Jordan Keller', avatar: 'https://randomuser.me/api/portraits/thumb/men/14.jpg', lastMessage: 'Sports' },
-  { id: 'oliviaSchmidt', name: 'Olivia Schmidt', avatar: 'https://randomuser.me/api/portraits/thumb/women/22.jpg', lastMessage: 'Psychology' },
-  { id: 'maxWeber', name: 'Max Weber', avatar: 'https://randomuser.me/api/portraits/thumb/men/71.jpg', lastMessage: 'Economics' },
-  { id: 'liamFischer', name: 'Liam Fischer', avatar: 'https://randomuser.me/api/portraits/thumb/men/80.jpg', lastMessage: 'Politics' }
+  { id: 'marieBelle', name: 'Marie-Belle', avatar: '/profile_pictures/mary_belle.png', lastMessage: 'Math' },
+  { id: 'vanClaude', name: 'Van Claude', avatar: '/profile_pictures/van_claude.png', lastMessage: 'French' },
+  { id: 'sophiaLane', name: 'Sophia Lane', avatar: '/profile_pictures/sophia_lane.png', lastMessage: 'English' },
+  { id: 'maximilianKoehler', name: 'Maximilian Koehler', avatar: '/profile_pictures/maximilian_koehler.png', lastMessage: 'German' },
+  { id: 'eliseSchmitz', name: 'Elise Schmitz', avatar: '/profile_pictures/elise_schmitz.png', lastMessage: 'Biology' },
+  { id: 'isabellaReyes', name: 'Isabella Reyes', avatar: '/profile_pictures/isabella_reyes.png', lastMessage: 'Music' },
+  { id: 'danielHartmann', name: 'Daniel Hartmann', avatar: '/profile_pictures/daniel_hartmann.png', lastMessage: 'Geography' },
+  { id: 'lenaFischer', name: 'Lena Fischer', avatar: '/profile_pictures/lena_fischer.png', lastMessage: 'Physics' },
+  { id: 'amiraSolis', name: 'Amira Solis', avatar: '/profile_pictures/amira_solis.png', lastMessage: 'Chemistry' },
+  { id: 'liamReyes', name: 'Liam Reyes', avatar: '/profile_pictures/liam_reyes.png', lastMessage: 'Computer Science' },
+  { id: 'annaLuciaBaumann', name: 'Anna Lucia Baumann', avatar: '/profile_pictures/anna-lucia_baumann.png', lastMessage: 'Religion' },
+  { id: 'jordanKeller', name: 'Jordan Keller', avatar: '/profile_pictures/jordan_keller.png', lastMessage: 'Sports' },
+  { id: 'oliviaSchmidt', name: 'Olivia Schmidt', avatar: '/profile_pictures/olivia_schmidt.png', lastMessage: 'Psychology' },
+  { id: 'maxWeber', name: 'Max Weber', avatar: '/profile_pictures/max_weber.png', lastMessage: 'Economics' },
+  { id: 'liamFischer', name: 'Liam Fischer', avatar: '/profile_pictures/liam_fischer.png', lastMessage: 'Politics' }
 ]);
 
 
