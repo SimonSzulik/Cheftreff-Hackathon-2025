@@ -10,11 +10,9 @@
               <v-btn icon size="small">
                 <v-icon>mdi-message-plus-outline</v-icon>
               </v-btn>
-              <v-btn icon size="small">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
             </v-toolbar>
             <v-text-field
+              v-model="searchTerm"
               density="compact"
               variant="solo-filled"
               label="Search or start new chat"
@@ -26,7 +24,7 @@
               bg-color="#2e3c42" ></v-text-field>
             <v-list lines="two" class="mentor-list overflow-y-auto">
               <v-list-item
-                v-for="mentor in mentors"
+                v-for="mentor in filteredMentors"
                 :key="mentor.id"
                 @click="selectMentor(mentor)"
                 :active="selectedMentor && selectedMentor.id === mentor.id"
@@ -55,16 +53,7 @@
                    </v-avatar>
                 </template>
                 <v-toolbar-title>{{ selectedMentor.name }}</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon size="small">
-                  <v-icon>mdi-video</v-icon>
-                </v-btn>
-                <v-btn icon size="small">
-                  <v-icon>mdi-phone</v-icon>
-                </v-btn>
-                <v-btn icon size="small">
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
+                <v-spacer></v-spacer> 
               </v-toolbar>
               <v-divider></v-divider>
 
@@ -120,6 +109,16 @@ const mentors = ref([
   { id: 'alice', name: 'Alice', avatar: 'https://via.placeholder.com/150/77b1d9', lastMessage: 'How\'s your progress?' },
   { id: 'bob', name: 'Bob', avatar: 'https://via.placeholder.com/150/f06292', lastMessage: 'Let me know if you need help.' }
 ]);
+
+const searchTerm = ref('');
+
+import { computed } from 'vue';
+
+const filteredMentors = computed(() =>
+  mentors.value.filter(mentor =>
+    mentor.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
+);
 
 const selectedMentor = ref(null);
 const messages = ref([]);
