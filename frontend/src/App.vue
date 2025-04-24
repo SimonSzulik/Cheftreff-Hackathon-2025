@@ -63,8 +63,8 @@
                      class="d-flex"
                 >
                   <v-chip
-                    :color="message.sender === 'me' ? '#005c4b' : '#2a3942'"
-                    :text-color="message.sender === 'me' ? 'white' : 'white'"
+                    variant="flat"
+                    :color="message.sender === 'me' ? 'green' : 'primary'"
                     rounded="lg"
                     class="message-bubble my-1 px-3 py-2"
                   >
