@@ -217,6 +217,7 @@ onMounted(() => {
 <style scoped>
 #app-root {
   background-color: #111b21;
+  height: 100vh;
 }
 
 .border-right {
