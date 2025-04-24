@@ -41,6 +41,10 @@ def get_history(tutor_id: str):
 
     history = []
     for msg in tutor.chat.history:
+        if len(history) == 2:
+            text = tutor.first_message
+            role = "mentor"
+            history.append({"sender": role, "text": text})
         text = getattr(msg.parts[0], 'text', '') if msg.parts else ''
         role = "mentor" if msg.role == "model" else "me"
         history.append({"sender": role, "text": text})
