@@ -5,7 +5,7 @@ from gemini_chat import GeminiTutor
 from data.prompts import Marie_Belle, Marie_Belle_Intro # Mathe
 from data.prompts import Van_Claude, Van_Claude_Intro # French
 from data.prompts import Sophia_Lane, Sophia_Lane_Intro # English 
-from data.prompts import Maximilian_Koehler, Maximilian_Koehler # German
+from data.prompts import Maximilian_Koehler, Maximilian_Koehler_Intro # German
 from data.prompts import Elise_Schmitz, Elise_Schmitz_Intro # Biologie
 from data.prompts import Isabella_Reyes, Isabella_Reyes_Intro # Musik
 from data.prompts import Daniel_Hartmann, Daniel_Hartmann_Intro # Geographie
@@ -35,9 +35,23 @@ app.add_middleware(
 
 # Tutor pool
 tutors = {
-    "alice": GeminiTutor(subject="Math", name="Marie Belle", introduction=Marie_Belle, first_message=Marie_Belle_Intro),
-    "bob": GeminiTutor(subject="French", name="Van Claude", introduction=Van_Claude, first_message=Van_Claude_Intro),
+    "marieBelle": GeminiTutor(subject="Math", name="Marie Belle", introduction=Marie_Belle, first_message=Marie_Belle_Intro),
+    "vanClaude": GeminiTutor(subject="French", name="Van Claude", introduction=Van_Claude, first_message=Van_Claude_Intro),
+    "sophiaLane": GeminiTutor(subject="English", name="Sophia Lane", introduction=Sophia_Lane, first_message=Sophia_Lane_Intro),
+    "maximilianKoehler": GeminiTutor(subject="German", name="Maximilian Koehler", introduction=Maximilian_Koehler, first_message=Maximilian_Koehler_Intro),
+    "eliseSchmitz": GeminiTutor(subject="Biology", name="Elise Schmitz", introduction=Elise_Schmitz, first_message=Elise_Schmitz_Intro),
+    "isabellaReyes": GeminiTutor(subject="Music", name="Isabella Reyes", introduction=Isabella_Reyes, first_message=Isabella_Reyes_Intro),
+    "danielHartmann": GeminiTutor(subject="Geography", name="Daniel Hartmann", introduction=Daniel_Hartmann, first_message=Daniel_Hartmann_Intro),
+    "lenaFischer": GeminiTutor(subject="Physics", name="Lena Fischer", introduction=Lena_Fischer, first_message=Lena_Fischer_Intro),
+    "amiraSolis": GeminiTutor(subject="Chemistry", name="Amira Solis", introduction=Amira_Solis, first_message=Amira_Solis_Intro),
+    "liamReyes": GeminiTutor(subject="Computer Science", name="Liam Reyes", introduction=Liam_Reyes, first_message=Liam_Reyes_Intro),
+    "annaLuciaBaumann": GeminiTutor(subject="Religion", name="Anna Lucia Baumann", introduction=Anna_Lucia_Baumann, first_message=Anna_Lucia_Baumann_Intro),
+    "jordanKeller": GeminiTutor(subject="Sports", name="Jordan Keller", introduction=Jordan_Keller, first_message=Jordan_Keller_Intro),
+    "oliviaSchmidt": GeminiTutor(subject="Psychology", name="Olivia Schmidt", introduction=Olivia_Schmidt, first_message=Olivia_Schmidt_Intro),
+    "maxWeber": GeminiTutor(subject="Economics", name="Max Weber", introduction=Max_Weber, first_message=Max_Weber_Intro),
+    "liamFischer": GeminiTutor(subject="Politics", name="Liam Fischer", introduction=Liam_Fischer, first_message=Liam_Fischer_Intro),
 }
+
 
 cameraService = CameraService()
 
