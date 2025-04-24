@@ -2,7 +2,21 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from gemini_chat import GeminiTutor
-from data.prompts import Marie_Belle, Van_Claude, Elise, Marie_Belle_Intro, Van_Claude_Intro
+from data.prompts import Marie_Belle, Marie_Belle_Intro # Mathe
+from data.prompts import Van_Claude, Van_Claude_Intro # French
+from data.prompts import Sophia_Lane, Sophia_Lane_Intro # English 
+from data.prompts import Maximilian_Koehler, Maximilian_Koehler # German
+from data.prompts import Elise_Schmitz, Elise_Schmitz_Intro # Biologie
+from data.prompts import Isabella_Reyes, Isabella_Reyes_Intro # Musik
+from data.prompts import Daniel_Hartmann, Daniel_Hartmann_Intro # Geographie
+from data.prompts import Lena_Fischer, Lena_Fischer_Intro # Physics
+from data.prompts import Amira_Solis, Amira_Solis_Intro # Chemistry
+from data.prompts import Liam_Reyes, Liam_Reyes_Intro # Computer Science
+from data.prompts import Anna_Lucia_Baumann, Anna_Lucia_Baumann_Intro # Religion
+from data.prompts import Jordan_Keller, Jordan_Keller_Intro # Sports
+from data.prompts import Olivia_Schmidt, Olivia_Schmidt_Intro # Psychologie
+from data.prompts import Max_Weber, Max_Weber_Intro # Economics
+from data.prompts import Liam_Fischer, Liam_Fischer_Intro # Politics
 from camera_service import CameraService
 import requests
 
