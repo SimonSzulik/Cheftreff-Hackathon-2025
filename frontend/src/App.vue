@@ -114,6 +114,7 @@
 
 <script setup>
 import { ref, nextTick, watch } from 'vue';
+const BACKEND_URL = 'http://localhost:8000';
 
 const mentors = ref([
   { id: 1, name: 'Alice', avatar: 'https://via.placeholder.com/150/77b1d9', lastMessage: 'How\'s your progress?' },
@@ -128,26 +129,44 @@ let nextMessageId = 1;
 
 const chatContainer = ref(null);
 
-const selectMentor = (mentor) => {
+const selectMentor = async (mentor) => {
   selectedMentor.value = mentor;
-  messages.value = [
-    { id: 0, sender: 'mentor', text: `Hello ${mentor.name}! How can I help you today?` },
-    { id: 1, sender: 'me', text: `Hi ${mentor.name}, I have a question about my project.` },
-    { id: 2, sender: 'mentor', text: 'Sure, go ahead and ask!' },
-  ];
+
+  const response = await fetch(`${BACKEND_URL}/history/${mentor.id}`);
+  const data = await response.json();
+
+  messages.value = data.messages || [];
   nextMessageId = messages.value.length;
-  nextTick(() => {
-     scrollToBottom();
-  });
+
+  await nextTick();
+  scrollToBottom();
 };
 
-const sendMessage = () => {
+const sendMessage = async () => {
   if (newMessage.value.trim() !== '' && selectedMentor.value) {
-    messages.value.push({ id: nextMessageId++, sender: 'me', text: newMessage.value.trim() });
+    const userText = newMessage.value.trim();
+
+    messages.value.push({ id: nextMessageId++, sender: 'me', text: userText });
     newMessage.value = '';
-    nextTick(() => {
-       scrollToBottom();
+
+    await nextTick();
+    scrollToBottom();
+
+    // Send to backend
+    const res = await fetch(`${BACKEND_URL}/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tutor_id: selectedMentor.value.name.toLowerCase(),
+        message: userText
+      })
     });
+
+    const data = await res.json();
+    messages.value.push({ id: nextMessageId++, sender: 'mentor', text: data.reply });
+
+    await nextTick();
+    scrollToBottom();
   }
 };
 
