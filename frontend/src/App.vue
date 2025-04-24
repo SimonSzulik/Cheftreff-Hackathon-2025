@@ -138,7 +138,8 @@ import { computed } from 'vue';
 
 const filteredMentors = computed(() =>
   mentors.value.filter(mentor =>
-    mentor.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+    mentor.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+    mentor.lastMessage.toLowerCase().includes(searchTerm.value.toLowerCase())
   )
 );
 
