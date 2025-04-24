@@ -1,11 +1,13 @@
 # main.py
 
 from gemini_chat import GeminiTutor
+from Prompts.prompts import Marie_Belle, Van_Claude, Elise
 
 def main():
     # Erstelle die beiden Tutoren
-    tutor_math = GeminiTutor(subject="Math", name="Mary-Belle")
-    tutor_french = GeminiTutor(subject="French", name="Claude")
+    tutor_math = GeminiTutor(subject="Math", name="Mary-Belle", introduction = Marie_Belle)
+    tutor_french = GeminiTutor(subject="French", name="Claude", introduction = Van_Claude)
+    tutor_biology = GeminiTutor(subject="Biology", name="Elise", introduction = Elise)
 
     # Initialisiere den aktuellen Tutor (Standard ist der Mathe-Tutor)
     current_tutor = tutor_math
@@ -28,6 +30,11 @@ def main():
 
         elif user_input.lower() in ["/switch_french", "#switch_french", "/sf"]:
             current_tutor = tutor_french
+            print(f"Switched to {current_tutor.name} ({current_tutor.subject}).\n")
+            continue  # Weiter zum nächsten Input
+
+        elif user_input.lower() in ["/switch_biology", "#switch_biology", "/sf"]:
+            current_tutor = tutor_biology
             print(f"Switched to {current_tutor.name} ({current_tutor.subject}).\n")
             continue  # Weiter zum nächsten Input
 
