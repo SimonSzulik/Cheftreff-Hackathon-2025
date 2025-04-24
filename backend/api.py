@@ -49,4 +49,9 @@ def get_history(tutor_id: str):
         role = "mentor" if msg.role == "model" else "me"
         history.append({"sender": role, "text": text})
 
+    if len(history) == 2:
+        text = tutor.first_message
+        role = "mentor"
+        history.append({"sender": role, "text": text})
+
     return {"messages": history[2:]}
