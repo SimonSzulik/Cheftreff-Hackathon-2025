@@ -12,6 +12,11 @@ def main():
         if user_input.lower() in ["exit", "quit"]:
             print("Chat ended. Goodbye!")
             break
+
+        if user_input.lower() in ["/history", "#history", "/h"]:
+            tutor.print_chat_history()
+            continue  # don't send this to the AI
+        
         ai_response = tutor.ask(user_input)
         print(f"AI Tutor: {ai_response}\n")
 
