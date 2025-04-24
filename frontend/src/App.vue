@@ -7,9 +7,6 @@
             <v-toolbar flat color="#2e3c43" density="compact">
               <v-toolbar-title>Mentors</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon size="small">
-                <v-icon>mdi-message-plus-outline</v-icon>
-              </v-btn>
             </v-toolbar>
             <v-text-field
               v-model="searchTerm"
