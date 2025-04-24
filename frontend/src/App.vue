@@ -117,9 +117,8 @@ import { ref, nextTick, watch } from 'vue';
 const BACKEND_URL = 'http://localhost:8000';
 
 const mentors = ref([
-  { id: 1, name: 'Alice', avatar: 'https://via.placeholder.com/150/77b1d9', lastMessage: 'How\'s your progress?' },
-  { id: 2, name: 'Bob', avatar: 'https://via.placeholder.com/150/f06292', lastMessage: 'Let me know if you need help.' },
-  { id: 3, name: 'Charlie', avatar: 'https://via.placeholder.com/150/64b5f6', lastMessage: 'Great work!' },
+  { id: 'alice', name: 'Alice', avatar: 'https://via.placeholder.com/150/77b1d9', lastMessage: 'How\'s your progress?' },
+  { id: 'bob', name: 'Bob', avatar: 'https://via.placeholder.com/150/f06292', lastMessage: 'Let me know if you need help.' }
 ]);
 
 const selectedMentor = ref(null);
@@ -259,6 +258,7 @@ watch(messages, () => {
   white-space: pre-wrap;
   word-break: break-word;
   box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+  height: auto;
 }
 
 /* Style for the new input area div */
