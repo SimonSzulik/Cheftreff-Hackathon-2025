@@ -107,21 +107,21 @@ import { ref, nextTick, watch, onMounted } from 'vue';
 const BACKEND_URL = 'http://localhost:8000';
 
 const mentors = ref([
-  { id: 'marieBelle', name: 'Marie-Belle', avatar: 'https://via.placeholder.com/150/77b1d9', lastMessage: 'Math' },
-  { id: 'vanClaude', name: 'Van Claude', avatar: 'https://via.placeholder.com/150/f06292', lastMessage: 'French' },
-  { id: 'sophiaLane', name: 'Sophia Lane', avatar: 'https://via.placeholder.com/150/4caf50', lastMessage: 'English' },
-  { id: 'maximilianKoehler', name: 'Maximilian Koehler', avatar: 'https://via.placeholder.com/150/2196f3', lastMessage: 'German' },
-  { id: 'eliseSchmitz', name: 'Elise Schmitz', avatar: 'https://via.placeholder.com/150/ffeb3b', lastMessage: 'Biology' },
-  { id: 'isabellaReyes', name: 'Isabella Reyes', avatar: 'https://via.placeholder.com/150/9c27b0', lastMessage: 'Music' },
-  { id: 'danielHartmann', name: 'Daniel Hartmann', avatar: 'https://via.placeholder.com/150/607d8b', lastMessage: 'Geography' },
-  { id: 'lenaFischer', name: 'Lena Fischer', avatar: 'https://via.placeholder.com/150/3f51b5', lastMessage: 'Physics' },
-  { id: 'amiraSolis', name: 'Amira Solis', avatar: 'https://via.placeholder.com/150/e91e63', lastMessage: 'Chemistry' },
-  { id: 'liamReyes', name: 'Liam Reyes', avatar: 'https://via.placeholder.com/150/8bc34a', lastMessage: 'Computer Science' },
-  { id: 'annaLuciaBaumann', name: 'Anna Lucia Baumann', avatar: 'https://via.placeholder.com/150/673ab7', lastMessage: 'Religion' },
-  { id: 'jordanKeller', name: 'Jordan Keller', avatar: 'https://via.placeholder.com/150/ff5722', lastMessage: 'Sports' },
-  { id: 'oliviaSchmidt', name: 'Olivia Schmidt', avatar: 'https://via.placeholder.com/150/009688', lastMessage: 'Psychology' },
-  { id: 'maxWeber', name: 'Max Weber', avatar: 'https://via.placeholder.com/150/795548', lastMessage: 'Economics' },
-  { id: 'liamFischer', name: 'Liam Fischer', avatar: 'https://via.placeholder.com/150/2196f3', lastMessage: 'Politics' }
+  { id: 'marieBelle', name: 'Marie-Belle', avatar: 'https://randomuser.me/api/portraits/thumb/women/75.jpg', lastMessage: 'Math' },
+  { id: 'vanClaude', name: 'Van Claude', avatar: 'https://randomuser.me/api/portraits/thumb/men/75.jpg', lastMessage: 'French' },
+  { id: 'sophiaLane', name: 'Sophia Lane', avatar: 'https://randomuser.me/api/portraits/thumb/women/63.jpg', lastMessage: 'English' },
+  { id: 'maximilianKoehler', name: 'Maximilian Koehler', avatar: 'https://randomuser.me/api/portraits/thumb/men/31.jpg', lastMessage: 'German' },
+  { id: 'eliseSchmitz', name: 'Elise Schmitz', avatar: 'https://randomuser.me/api/portraits/thumb/women/10.jpg', lastMessage: 'Biology' },
+  { id: 'isabellaReyes', name: 'Isabella Reyes', avatar: 'https://randomuser.me/api/portraits/thumb/women/11.jpg', lastMessage: 'Music' },
+  { id: 'danielHartmann', name: 'Daniel Hartmann', avatar: 'https://randomuser.me/api/portraits/thumb/men/58.jpg', lastMessage: 'Geography' },
+  { id: 'lenaFischer', name: 'Lena Fischer', avatar: 'https://randomuser.me/api/portraits/thumb/women/39.jpg', lastMessage: 'Physics' },
+  { id: 'amiraSolis', name: 'Amira Solis', avatar: 'https://randomuser.me/api/portraits/thumb/women/72.jpg', lastMessage: 'Chemistry' },
+  { id: 'liamReyes', name: 'Liam Reyes', avatar: 'https://randomuser.me/api/portraits/thumb/men/79.jpg', lastMessage: 'Computer Science' },
+  { id: 'annaLuciaBaumann', name: 'Anna Lucia Baumann', avatar: 'https://randomuser.me/api/portraits/thumb/women/24.jpg', lastMessage: 'Religion' },
+  { id: 'jordanKeller', name: 'Jordan Keller', avatar: 'https://randomuser.me/api/portraits/thumb/men/14.jpg', lastMessage: 'Sports' },
+  { id: 'oliviaSchmidt', name: 'Olivia Schmidt', avatar: 'https://randomuser.me/api/portraits/thumb/women/22.jpg', lastMessage: 'Psychology' },
+  { id: 'maxWeber', name: 'Max Weber', avatar: 'https://randomuser.me/api/portraits/thumb/men/71.jpg', lastMessage: 'Economics' },
+  { id: 'liamFischer', name: 'Liam Fischer', avatar: 'https://randomuser.me/api/portraits/thumb/men/80.jpg', lastMessage: 'Politics' }
 ]);
 
 
