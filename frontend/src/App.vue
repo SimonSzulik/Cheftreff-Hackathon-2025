@@ -1,81 +1,109 @@
 <template>
-  <v-app :class="{'strobe': isStrobing}" theme="dark" id="app-root">
+  <v-app theme="dark" id="app-root">
     <v-main class="fill-height">
-      <v-container fluid class="fill-height">
-        <v-row class="fill-height">
-          <v-col cols="4" style="background-color: #232d36;" class="fill-height">
-            <v-toolbar flat dark>
+      <v-container fluid class="fill-height pa-0">
+        <v-row class="fill-height no-gutters">
+          <v-col cols="4" class="fill-height border-right">
+            <v-toolbar flat color="#2e3c43" density="compact">
               <v-toolbar-title>Mentors</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
+              <v-btn icon size="small">
                 <v-icon>mdi-message-plus-outline</v-icon>
               </v-btn>
-              <v-btn icon>
+              <v-btn icon size="small">
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </v-toolbar>
-            <v-list rounded dark class="fill-height">
-              <v-list-item v-for="mentor in mentors" :key="mentor.id" @click="selectMentor(mentor)" class="mentor-item">
-                <v-list-item-avatar>
-                  <v-img :src="mentor.avatar"></v-img>
-                </v-list-item-avatar>
+            <v-text-field
+              density="compact"
+              variant="solo-filled"
+              label="Search or start new chat"
+              append-inner-icon="mdi-magnify"
+              single-line
+              hide-details
+              flat
+              class="px-4 py-2"
+              bg-color="#2e3c42" ></v-text-field>
+            <v-list lines="two" class="mentor-list overflow-y-auto">
+              <v-list-item
+                v-for="mentor in mentors"
+                :key="mentor.id"
+                @click="selectMentor(mentor)"
+                :active="selectedMentor && selectedMentor.id === mentor.id"
+                active-color="primary"
+                class="mentor-item py-3"
+              >
+                <template v-slot:prepend>
+                  <v-avatar size="40">
+                    <v-img :src="mentor.avatar" :alt="mentor.name"></v-img>
+                  </v-avatar>
+                </template>
                 <v-list-item-content>
-                  <v-list-item-title>{{ mentor.name }}</v-list-item-title>
-                  <v-list-item-subtitle>{{ mentor.lastMessage }}</v-list-item-subtitle>
+                  <v-list-item-title class="font-weight-medium">{{ mentor.name }}</v-list-item-title>
+                  <v-list-item-subtitle class="text-caption">{{ mentor.lastMessage }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
-            <v-btn class="mt-4 ml-2" @click="toggleStrobe" :color="isStrobing ? 'error' : 'warning'">
-              {{ isStrobing ? 'Stop Strobe' : 'Simulate Unfocused' }}
-            </v-btn>
           </v-col>
-          <v-col cols="8" style="background-color: #111b21;" class="d-flex flex-column fill-height">
+
+          <v-col cols="8" class="d-flex flex-column fill-height chat-window">
             <div v-if="selectedMentor" class="d-flex flex-column fill-height">
-              <v-toolbar flat dark>
-                <v-app-bar-nav-icon></v-app-bar-nav-icon>
+              <v-toolbar flat color="#2e3c43" density="compact">
+                <template v-slot:prepend>
+                   <v-avatar size="36">
+                     <v-img :src="selectedMentor.avatar" :alt="selectedMentor.name"></v-img>
+                   </v-avatar>
+                </template>
                 <v-toolbar-title>{{ selectedMentor.name }}</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>
+                <v-btn icon size="small">
                   <v-icon>mdi-video</v-icon>
                 </v-btn>
-                <v-btn icon>
+                <v-btn icon size="small">
                   <v-icon>mdi-phone</v-icon>
                 </v-btn>
-                <v-btn icon>
+                <v-btn icon size="small">
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
               </v-toolbar>
               <v-divider></v-divider>
-              <v-container class="flex-grow-1 overflow-y-auto chat-container fill-height">
-                <div v-for="message in messages" :key="message.id" :class="{'message-sent': message.sender === 'me', 'message-received': message.sender === 'mentor'}">
+
+              <v-container ref="chatContainer" class="flex-grow-1 overflow-y-auto chat-messages-container pa-4">
+                <div v-for="message in messages" :key="message.id"
+                     :class="{'message-sent': message.sender === 'me', 'message-received': message.sender === 'mentor'}"
+                     class="d-flex"
+                >
                   <v-chip
-                    :color="message.sender === 'me' ? '#dcf8c6' : '#2a3942'"
-                    :text-color="message.sender === 'me' ? 'black' : 'white'"
-                    rounded="xl"
-                    class="message-bubble"
+                    :color="message.sender === 'me' ? '#005c4b' : '#2a3942'"
+                    :text-color="message.sender === 'me' ? 'white' : 'white'"
+                    rounded="lg"
+                    class="message-bubble my-1 px-3 py-2"
                   >
                     {{ message.text }}
                   </v-chip>
                 </div>
               </v-container>
-              <v-footer flat style="background-color: #232d36;">
-                <v-text-field
+
+              <div class="message-input-area pa-3"> <v-text-field
                   v-model="newMessage"
-                  outlined
-                  placeholder="Type a message"
-                  class="flex-grow-1 mr-2 message-input"
+                  density="compact"
+                  variant="solo"
+                  flat
                   hide-details
-                  solo
-                  dark
+                  placeholder="Type a message"
+                  class="message-input mr-3"
+                  bg-color="#2a3942"
+                  rounded="xl"
                   @keyup.enter="sendMessage"
                 ></v-text-field>
-                <v-btn color="#00a884" @click="sendMessage" rounded="circle" height="48" width="48">
+                <v-btn color="#00a884" @click="sendMessage" rounded="circle" size="large" :disabled="!newMessage.trim()">
                   <v-icon>mdi-send</v-icon>
                 </v-btn>
-              </v-footer>
+              </div>
             </div>
-            <div v-else class="d-flex align-center justify-center fill-height">
-              <v-subheader style="color: #8696a0;">Select a mentor to start chatting</v-subheader>
+            <div v-else class="d-flex align-center justify-center fill-height no-mentor-selected">
+              <v-icon size="64" color="#8696a0">mdi-message-text-outline</v-icon>
+              <v-subheader style="color: #8696a0;" class="text-h6">Select a mentor to start chatting</v-subheader>
             </div>
           </v-col>
         </v-row>
@@ -84,107 +112,162 @@
   </v-app>
 </template>
 
-<script>
-import { ref } from 'vue';
+<script setup>
+import { ref, nextTick, watch } from 'vue';
 
-export default {
-  name: 'ChatInterface',
-  data() {
-    return {
-      mentors: [
-        { id: 1, name: 'Alice', avatar: 'https://via.placeholder.com/150/77b1d9', lastMessage: 'How\'s your progress?' },
-        { id: 2, name: 'Bob', avatar: 'https://via.placeholder.com/150/f06292', lastMessage: 'Let me know if you need help.' },
-        { id: 3, name: 'Charlie', avatar: 'https://via.placeholder.com/150/64b5f6', lastMessage: 'Great work!' },
-      ],
-      selectedMentor: ref(null),
-      messages: ref([]),
-      newMessage: ref(''),
-      nextMessageId: 1,
-      isStrobing: ref(false),
-      strobeInterval: null,
-    };
-  },
-  methods: {
-    selectMentor(mentor) {
-      this.selectedMentor = mentor;
-      this.messages.value = [
-        { id: 0, sender: 'mentor', text: 'Hello!' },
-      ];
-      this.nextMessageId = 1;
-    },
-    sendMessage() {
-      if (this.newMessage.trim() !== '' && this.selectedMentor) {
-        this.messages.value.push({ id: this.nextMessageId++, sender: 'me', text: this.newMessage });
-        this.newMessage = '';
-      }
-    },
-    toggleStrobe() {
-      this.isStrobing = !this.isStrobing;
-      if (this.isStrobing) {
-        this.startStrobe();
-      } else {
-        this.stopStrobe();
-      }
-    },
-    startStrobe() {
-      let isBlack = false;
-      this.strobeInterval = setInterval(() => {
-        const appRoot = document.getElementById('app-root');
-        if (appRoot) {
-          appRoot.style.backgroundColor = isBlack ? 'white' : 'black';
-        }
-        isBlack = !isBlack;
-      }, 100); // Adjust the interval for faster/slower flashing
-    },
-    stopStrobe() {
-      clearInterval(this.strobeInterval);
-      const appRoot = document.getElementById('app-root');
-      if (appRoot) {
-        appRoot.style.backgroundColor = ''; // Reset background color
-      }
-    },
-  },
-  onUnmounted() {
-    this.stopStrobe(); // Clear interval when component unmounts
-  },
+const mentors = ref([
+  { id: 1, name: 'Alice', avatar: 'https://via.placeholder.com/150/77b1d9', lastMessage: 'How\'s your progress?' },
+  { id: 2, name: 'Bob', avatar: 'https://via.placeholder.com/150/f06292', lastMessage: 'Let me know if you need help.' },
+  { id: 3, name: 'Charlie', avatar: 'https://via.placeholder.com/150/64b5f6', lastMessage: 'Great work!' },
+]);
+
+const selectedMentor = ref(null);
+const messages = ref([]);
+const newMessage = ref('');
+let nextMessageId = 1;
+
+const chatContainer = ref(null);
+
+const selectMentor = (mentor) => {
+  selectedMentor.value = mentor;
+  messages.value = [
+    { id: 0, sender: 'mentor', text: `Hello ${mentor.name}! How can I help you today?` },
+    { id: 1, sender: 'me', text: `Hi ${mentor.name}, I have a question about my project.` },
+    { id: 2, sender: 'mentor', text: 'Sure, go ahead and ask!' },
+  ];
+  nextMessageId = messages.value.length;
+  nextTick(() => {
+     scrollToBottom();
+  });
 };
+
+const sendMessage = () => {
+  if (newMessage.value.trim() !== '' && selectedMentor.value) {
+    messages.value.push({ id: nextMessageId++, sender: 'me', text: newMessage.value.trim() });
+    newMessage.value = '';
+    nextTick(() => {
+       scrollToBottom();
+    });
+  }
+};
+
+const scrollToBottom = () => {
+  if (chatContainer.value) {
+    const element = chatContainer.value.$el;
+    element.scrollTop = element.scrollHeight;
+  }
+};
+
+watch(messages, () => {
+    nextTick(() => {
+        scrollToBottom();
+    });
+}, { deep: true });
 </script>
 
 <style scoped>
-.mentor-item {
-  cursor: pointer;
+#app-root {
+  background-color: #111b21;
 }
 
-.chat-container {
-  padding: 16px;
+.border-right {
+  border-right: 1px solid #2a3942;
+}
+
+.mentor-list {
+  background-color: #1f2c34;
+  /* Calculate height considering toolbar (48px) and search (approx 60px including padding) */
+  height: calc(100% - 48px - 60px);
+}
+
+.mentor-item {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.mentor-item:hover {
+  background-color: #2a3942;
+}
+
+.v-list-item--active.mentor-item {
+    background-color: #2a3942 !important;
+}
+
+
+.chat-window {
+    background-color: #111b21;
+}
+
+.chat-messages-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  /* Removed padding-bottom that accounted for v-footer */
+  padding: 16px; /* Adjusted padding */
+}
+
+.chat-messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-messages-container::-webkit-scrollbar-track {
+  background: #1f2c34;
+}
+
+.chat-messages-container::-webkit-scrollbar-thumb {
+  background: #50606a;
+  border-radius: 4px;
+}
+
+.chat-messages-container::-webkit-scrollbar-thumb:hover {
+  background: #60707a;
+}
+
+.message-sent,
+.message-received {
   display: flex;
-  flex-direction: column;
 }
 
 .message-sent {
-  display: flex;
   justify-content: flex-end;
-  margin-bottom: 8px;
 }
 
 .message-received {
-  display: flex;
   justify-content: flex-start;
-  margin-bottom: 8px;
 }
 
 .message-bubble {
-  max-width: 80%;
-  white-space: normal;
-  padding: 8px 12px;
+  max-width: 70%;
+  white-space: pre-wrap;
+  word-break: break-word;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
 }
 
-.message-input >>> .v-input__control {
-  border-radius: 24px;
+/* Style for the new input area div */
+.message-input-area {
+    background-color: #2a3942; /* Background color */
+    display: flex; /* Use flexbox to align text field and button */
+    align-items: center; /* Vertically center content */
+    padding: 12px 16px; /* Adjusted padding */
+    flex-shrink: 0; /* Prevent it from shrinking */
 }
 
-/* The 'strobe' class will handle the transition, but the actual background color change is done directly */
-.strobe * {
-  transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out; /* Smooth transition */
+.message-input {
+    flex-grow: 1; /* Allow text field to take available space */
+}
+
+.message-input .v-input__control {
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.message-input .v-field__input {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    min-height: unset !important;
+}
+
+.no-mentor-selected {
+    flex-direction: column;
+    gap: 16px;
 }
 </style>
