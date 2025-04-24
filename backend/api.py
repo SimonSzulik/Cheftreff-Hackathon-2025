@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from gemini_chat import GeminiTutor
-from data.prompts import Marie_Belle, Van_Claude, Elise
+from data.prompts import Marie_Belle, Van_Claude, Elise, Marie_Belle_Intro, Van_Claude_Intro
 
 app = FastAPI()
 
@@ -16,8 +16,8 @@ app.add_middleware(
 
 # Tutor pool
 tutors = {
-    "alice": GeminiTutor(subject="Math", name="Marie Belle", introduction=Marie_Belle),
-    "bob": GeminiTutor(subject="French", name="Van Claude", introduction=Van_Claude),
+    "alice": GeminiTutor(subject="Math", name="Marie Belle", introduction=Marie_Belle, first_message=Marie_Belle_Intro),
+    "bob": GeminiTutor(subject="French", name="Van Claude", introduction=Van_Claude, first_message=Van_Claude_Intro),
 }
 
 class ChatRequest(BaseModel):

@@ -3,7 +3,7 @@
 import google.generativeai as genai
 
 class GeminiTutor:
-    def __init__(self, subject, name, introduction):
+    def __init__(self, subject, name, introduction, first_message):
         self.api_key = "AIzaSyAybCSRKhfg-l69kKgexdBc3_NH6vaGx7g"
         genai.configure(api_key=self.api_key)
 
@@ -13,6 +13,7 @@ class GeminiTutor:
         self.subject = subject
         self.name = name
         self.introduction = introduction
+        self.first_message = first_message
         self.system_prompt = self._build_prompt()
 
         # Send the initial system message
