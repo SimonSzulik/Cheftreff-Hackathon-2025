@@ -45,13 +45,26 @@
             <div v-if="selectedMentor" class="d-flex flex-column fill-height">
               <v-toolbar flat color="#2e3c43" density="compact">
                 <template v-slot:prepend>
-                   <v-avatar size="36">
-                     <v-img :src="selectedMentor.avatar" :alt="selectedMentor.name"></v-img>
-                   </v-avatar>
+                  <v-avatar size="36" class="cursor-pointer" @click="showAvatarDialog = true">
+                  <v-img :src="selectedMentor.avatar" :alt="selectedMentor.name" />
+                  </v-avatar>
                 </template>
                 <v-toolbar-title>{{ selectedMentor.name }}</v-toolbar-title>
                 <v-spacer></v-spacer> 
               </v-toolbar>
+              <v-dialog v-model="showAvatarDialog" max-width="400">
+                <v-card>
+                  <v-img
+                    :src="selectedMentor.avatar"
+                    :alt="selectedMentor.name"
+                    aspect-ratio="1"
+                    cover
+                  ></v-img>
+                  <v-card-actions class="justify-end">
+                    <v-btn text @click="showAvatarDialog = false">Close</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
               <v-divider></v-divider>
 
               <v-container ref="chatContainer" class="flex-grow-1 overflow-y-auto chat-messages-container pa-4">
@@ -109,6 +122,7 @@
 import { ref, nextTick, watch, onMounted } from 'vue';
 
 const BACKEND_URL = 'http://localhost:8000';
+const showAvatarDialog = ref(false);
 
 const mentors = ref([
   { id: 'marieBelle', name: 'Marie-Belle', avatar: '/profile_pictures/mary_belle.png', lastMessage: 'Math' },
@@ -227,6 +241,10 @@ onMounted(() => {
 
 .border-right {
   border-right: 1px solid #2a3942;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .send-button {
