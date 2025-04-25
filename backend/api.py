@@ -19,6 +19,7 @@ from data.prompts import Max_Weber, Max_Weber_Intro # Economics
 from data.prompts import Liam_Fischer, Liam_Fischer_Intro # Politics
 from camera_service import CameraService
 import requests
+from collections import defaultdict
 
 motivation_prompt = "The student seems to be distracted. Send him a nice message to motivate him. Maybe adjust the difficulty of the current task."
 motivate_allowed = True
@@ -32,6 +33,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+# Store how many messages the user has sent to each tutor
+user_message_counts = defaultdict(int)
+achievement_threshold = 5
 
 # Tutor pool
 tutors = {
@@ -104,9 +109,19 @@ def chat(request: ChatRequest):
     tutor = tutors.get(request.tutor_id)
     if not tutor:
         return {"error": "Tutor not found"}
+    
+    # Count the user message
+    user_message_counts[request.tutor_id] += 1
+
+    # Check if achievement was unlocked
+    count = user_message_counts[request.tutor_id]
+    unlocked = count == achievement_threshold
 
     response = tutor.ask(request.message)
-    return {"reply": response}
+    return {
+        "reply": response,
+        "achievementUnlocked": unlocked
+    }
 
 @app.get("/history/{tutor_id}")
 def get_history(tutor_id: str):
@@ -131,3 +146,7 @@ def get_history(tutor_id: str):
         history.append({"sender": role, "text": text})
 
     return {"messages": history[2:]}
+
+@app.get("/achievements")
+def get_achievements():
+    return {"achieved": [tid for tid, count in user_message_counts.items() if count >= achievement_threshold]}

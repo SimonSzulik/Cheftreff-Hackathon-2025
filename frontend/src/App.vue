@@ -7,6 +7,11 @@
             <v-toolbar flat color="#2e3c43" density="compact">
               <v-toolbar-title>Mentors</v-toolbar-title>
               <v-spacer></v-spacer>
+              <v-btn icon @click="showAchievementsDialog = true">
+                <v-icon :color="achievements[selectedMentor?.id] ? 'yellow darken-3' : 'grey'">
+                  mdi-trophy
+                </v-icon>
+              </v-btn>
             </v-toolbar>
             <v-text-field
               v-model="searchTerm"
@@ -42,6 +47,31 @@
           </v-col>
 
           <v-col cols="8" class="d-flex flex-column fill-height chat-window">
+            <v-dialog v-model="showAchievementsDialog" max-width="500">
+                <v-card>
+                  <v-card-title>Achievements</v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text class="d-flex flex-wrap">
+                    <div
+                      v-for="mentor in mentors"
+                      :key="mentor.id"
+                      class="pa-2 text-center"
+                      style="width: 100px;"
+                    >
+                      <v-icon
+                        size="36"
+                        :color="achievements[mentor.id] ? 'yellow darken-3' : 'grey lighten-1'"
+                      >
+                        mdi-trophy
+                      </v-icon>
+                      <div style="font-size: 0.8rem;">{{ mentor.lastMessage }}</div>
+                    </div>
+                  </v-card-text>
+                  <v-card-actions class="justify-end">
+                    <v-btn text @click="showAchievementsDialog = false">Close</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
             <div v-if="selectedMentor" class="d-flex flex-column fill-height">
               <v-toolbar flat color="#2e3c43" density="compact">
                 <template v-slot:prepend>
@@ -82,6 +112,14 @@
                   </v-chip>
                 </div>
               </v-container>
+              
+              <!-- Achievement animation -->
+              <div
+                v-if="unlockedThisSession === selectedMentor?.id"
+                class="achievement-pop"
+              >
+                🎉 New Achievement!
+              </div>
 
               <div class="message-input-area pa-3"> <v-text-field
                   v-model="newMessage"
@@ -123,6 +161,10 @@ import { ref, nextTick, watch, onMounted } from 'vue';
 
 const BACKEND_URL = 'http://localhost:8000';
 const showAvatarDialog = ref(false);
+
+const achievements = ref({});
+const showAchievementsDialog = ref(false);
+const unlockedThisSession = ref(null); // ID of tutor unlocked this session for animation
 
 const mentors = ref([
   { id: 'marieBelle', name: 'Marie-Belle', avatar: '/profile_pictures/mary_belle.png', lastMessage: 'Math' },
@@ -197,6 +239,18 @@ const sendMessage = async () => {
     const data = await res.json();
     messages.value.push({ id: nextMessageId++, sender: 'mentor', text: data.reply });
 
+    if (data.achievementUnlocked && !achievements.value[selectedMentor.value.id]) {
+      achievements.value[selectedMentor.value.id] = true;
+      unlockedThisSession.value = selectedMentor.value.id;
+
+      localStorage.setItem('achievements', JSON.stringify(achievements.value));
+
+      // Remove after short time to hide animation
+      setTimeout(() => {
+        unlockedThisSession.value = null;
+      }, 2000);
+    }
+
     await nextTick();
     scrollToBottom();
   }
@@ -214,22 +268,36 @@ watch(messages, () => {
         scrollToBottom();
     });
 }, { deep: true });
-onMounted(() => {
+onMounted(async () => {
+  // 🔄 Sync achievements from backend (source of truth)
+  const res = await fetch(`${BACKEND_URL}/achievements`);
+  const data = await res.json();
+
+  // Reset local state from backend
+  achievements.value = {};
+  data.achieved.forEach(id => {
+    achievements.value[id] = true;
+  });
+
+  // 🔄 Save synced state to localStorage
+  localStorage.setItem('achievements', JSON.stringify(achievements.value));
+
+  // Keep your tracking logic
   setInterval(async () => {
     if (selectedMentor.value) {
       const response = await fetch(`${BACKEND_URL}/tracking/${selectedMentor.value.id}`);
       const data = await response.json();
-    
-    if (data.reply === 'motivate') {
-      const res = await fetch(`${BACKEND_URL}/motivate/${selectedMentor.value.id}`);
-      const data = await res.json();
-      messages.value.push({ id: nextMessageId++, sender: 'mentor', text: data.reply });
-    }
 
-    await nextTick();
-    scrollToBottom();
+      if (data.reply === 'motivate') {
+        const res = await fetch(`${BACKEND_URL}/motivate/${selectedMentor.value.id}`);
+        const data = await res.json();
+        messages.value.push({ id: nextMessageId++, sender: 'mentor', text: data.reply });
+      }
+
+      await nextTick();
+      scrollToBottom();
     }
-  }, 5000); // every 5 seconds
+  }, 5000);
 });
 </script>
 
@@ -353,5 +421,38 @@ onMounted(() => {
 .no-mentor-selected {
     flex-direction: column;
     gap: 16px;
+}
+
+.achievement-pop {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffe066;
+  color: #000;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: popUp 0.4s ease-out, fadeOut 1.6s ease 0.4s forwards;
+  z-index: 999;
+}
+
+@keyframes popUp {
+  from {
+    transform: translate(-50%, 30px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
 }
 </style>
