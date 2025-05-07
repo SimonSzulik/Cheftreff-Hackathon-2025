@@ -8,3 +8,4 @@ tensorflow==2.19.0
 uvicorn==0.34.2
 mediapipe
 tf-keras
+dotenv

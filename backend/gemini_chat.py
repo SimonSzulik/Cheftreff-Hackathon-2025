@@ -1,13 +1,24 @@
 # gemini_chat.py
 
 import google.generativeai as genai
+import os
+from dotenv import load_dotenv
 
 class GeminiTutor:
     def __init__(self, subject, name, introduction, first_message):
-        self.api_key = "AIzaSyAybCSRKhfg-l69kKgexdBc3_NH6vaGx7g"
+        # Load environment variables from .env
+        load_dotenv()
+
+        # Get API key and model version from environment
+        self.api_key = os.getenv("GEMINI_API_KEY")
+        self.model_version = os.getenv("GEMINI_MODEL_VERSION", "models/gemini-1.5-pro-latest")
+
+        if not self.api_key:
+            raise ValueError("GEMINI_API_KEY environment variable not set")
+
         genai.configure(api_key=self.api_key)
 
-        self.model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
+        self.model = genai.GenerativeModel(self.model_version)
         self.chat = self.model.start_chat(history=[])
 
         self.subject = subject
