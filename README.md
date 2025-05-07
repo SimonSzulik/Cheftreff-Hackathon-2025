@@ -1,3 +1,4 @@
+![banner](https://github.com/user-attachments/assets/569e72a7-3e64-428d-9fce-d3b8b8812a8c)
 # ChefTreff AI-Hackathon 2025: AI-Powered Learning Platform
 
 ## Project Overview
@@ -37,14 +38,25 @@ The following is the short description of the Challange.
 ## Solution Description
 
 To address the challenge, we developed a multi-part AI-powered learning platform that creates engaging, personalized learning experiences for students. At the heart of the system are **personalized AI tutors**, each designed to represent a specific subject (e.g., math, science, history). These tutors are not just functional — they also have personalized pictures and conversational styles to simulate the presence of a real human tutor, making the interaction more relatable and motivating for students.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/3e3028ce-1331-452b-af69-52f8d6f6e349" width="300" />
+  <img src="https://github.com/user-attachments/assets/8973407d-41bc-41c6-bd72-759cb1d5db0d" width="300" />
+</div>
 
 The **frontend** was designed to resemble a familiar and appealing interface similar to WhatsApp Desktop, where each subject has its own dedicated chat. This allows students to seamlessly switch between subjects and tutors, creating an intuitive and organized learning environment.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/101e454d-da0d-46a8-b7ae-defc37a48864" width="500" />
+  <img src="https://github.com/user-attachments/assets/e1c9c851-ee9e-4ac2-8ede-f17e58c11edf" width="500" />
+</div>
 
 A key feature of the system is the **real-time observation of student behavior** using the device’s **camera**, allowing the platform to monitor whether the student is paying attention to the screen. This data is combined with the concept of **“time on task”** — measuring how long a student stays engaged with a learning activity. If the system detects that the student has looked away from the screen for too long, appears distracted, or takes unusually long pauses, the AI tutor automatically intervenes with supportive prompts, encouragement, or adaptive changes to the task difficulty. This proactive approach helps keep students focused, ensures tasks are appropriately challenging, and prevents frustration or disengagement.
 
 A key goal was to enhance **“flow”** — the psychological state where learners are fully immersed and enjoying the activity. By matching the difficulty of tasks to the student’s current skill level and monitoring time on task, the system dynamically adapts content to keep the student challenged but not overwhelmed, maintaining focus and maximizing learning impact.
 
 To boost engagement even further, we integrated **gamification elements**, including an **achievement system** that rewards students for milestones and progress. This not only keeps motivation high but also gives students a sense of accomplishment as they advance through their personalized learning journey.
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/47bc09b3-eadf-4bc9-b3f7-df6bf0b99222" width="500" />
+</div>
 
 On the technical side, the backend is powered by Python with the Gemini API for the AI tutors, while the frontend is built with Vue.js for a responsive and user-friendly experience. Together, these components form a cohesive solution that personalizes learning, increases engagement, and empowers both students and educators.
 
